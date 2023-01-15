@@ -4,7 +4,14 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <canvas id="screen" style='position:absolute; left:0px; top:0px;' width="640" height="480"></canvas>
+        <canvas id="screen" width="640" height="480"></canvas>
         <script src="./Canvas.js"></script>
+        <script src="./Assets.js"></script>
+        <script src="./Stick.js"></script>
+        <script src="./GameWorld.js"></script>
+        <script src="./Game.js"></script>
+        <script>
+            loadAssets(() => { poolGame.start()}) // pour le self
+        </script>
     </body>
 </html>

@@ -8,3 +8,8 @@ html, body {
 body {
     background-color: rgb(52, 57, 46);
 }
+
+#screen {
+    display: block;
+    margin: 0 auto;
+}
