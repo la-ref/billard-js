@@ -9,7 +9,7 @@ class Game {
         this.gameWorld.update();
         this.gameWorld.draw();
         
-        requestAnimationFrame(() => { this.mainLoop() })
+        requestAnimationFrame(() => { this.mainLoop() }) // pour le self
     }
  
     start(){
