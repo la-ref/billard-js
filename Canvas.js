@@ -7,7 +7,7 @@ class Canvas2D {
     initializeCanvas(width,height){
         this._canvas.width = width;
         this._canvas.height = height;
-        this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
+        this.clear();
     }
 
     drawImage(image,position){
