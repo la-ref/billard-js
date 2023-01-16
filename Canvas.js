@@ -10,8 +10,18 @@ class Canvas2D {
         this.clear();
     }
 
-    drawImage(image,position){
-        this._context.drawImage(image,position.x,position.y);
+    drawImage(image,position,origin, rotation = 0){
+        if (!position){
+            position = new Vector2();
+        }
+        if (!origin){
+            origin = new Vector2();
+        }
+        this._context.save();
+        this._context.translate(position.x,position.y);
+        this._context.rotate(rotation);
+        this._context.drawImage(image,-origin.x,-origin.y);
+        this._context.restore();
     }
 
     getWidth(){
@@ -28,6 +38,10 @@ class Canvas2D {
 
     getBoundingClientRect(){
         return this._canvas.getBoundingClientRect();
+    }
+
+    getContext(){
+        return this._context;
     }
 
 }
