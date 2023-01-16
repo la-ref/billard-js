@@ -5,7 +5,13 @@ class Stick {
     }
 
     update(){
-        this.position.x++;
+        var rect = this.canvas.getBoundingClientRect();
+        this.position.x = mouse.position.x - rect.left;
+        this.position.y = mouse.position.y - rect.top;
+
+        if (mouse.left.pressed){
+            console.log("test");
+        }
     }
 
     drawImage(){

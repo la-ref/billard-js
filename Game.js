@@ -8,7 +8,7 @@ class Game {
         this.canvas.clear();
         this.gameWorld.update();
         this.gameWorld.draw();
-        
+        mouse.reset();
         requestAnimationFrame(() => { this.mainLoop() }) // pour le self
     }
  
