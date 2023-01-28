@@ -47,6 +47,16 @@ export class Canvas2D {
         }
     }
 
+    drawCircle(color,posX,posY,radius){
+        if (posX != undefined && posY != undefined && color && radius) {
+            this._context.beginPath();
+            this._context.fillStyle = color;
+            this._context.arc(posX, posY, radius, 0, Math.PI*2);
+            this._context.fill();
+            this._context.closePath();
+        }
+    }
+
     getContext(){
         return this._context;
     }
