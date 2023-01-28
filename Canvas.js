@@ -1,6 +1,7 @@
 export class Canvas2D {
+
     constructor(){
-        this._canvas = document.getElementById('screen');
+        this._canvas = document.getElementById('main-canvas');
         this._context = this._canvas.getContext('2d');
     }
 
@@ -36,12 +37,22 @@ export class Canvas2D {
         this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
     }
 
-    getBoundingClientRect(){
-        return this._canvas.getBoundingClientRect();
+    fillRect(color,posX,posY,width,height){
+        this._context.fillStyle = color
+        if (width != undefined && height != undefined && posX != undefined && posY != undefined) {
+            this._context.fillRect(posX,posY,width,height)
+        }
+        else{
+            this._context.fillRect(0,0,this._canvas.width,this._canvas.height)
+        }
     }
 
     getContext(){
         return this._context;
+    }
+
+    getCanvas(){
+        return this._canvas;
     }
 
 }
