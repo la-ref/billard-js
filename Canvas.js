@@ -1,13 +1,16 @@
+import { Vector2 } from "./Vector2.js";
 export class Canvas2D {
 
     constructor(){
         this._canvas = document.getElementById('main-canvas');
         this._context = this._canvas.getContext('2d');
+        this._border = 60
     }
 
     initializeCanvas(width,height,border){
         this._canvas.width = width+2*border;
         this._canvas.height = height+2*border;
+        this._border = border
         this.clear();
     }
 
@@ -56,13 +59,9 @@ export class Canvas2D {
     clear(){
         this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
     }
-
-    getContext(){
-        return this._context;
-    }
-
-    getCanvas(){
-        return this._canvas;
+    
+    getBorder(){
+        return this._border
     }
 
 }
