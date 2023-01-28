@@ -24,4 +24,8 @@ export class GameWorld {
             ball.draw()
         }
     }
+
+    clear(){
+        this.canvas.clear()
+    }
 }

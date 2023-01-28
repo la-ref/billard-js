@@ -4,5 +4,24 @@ const width = 1200
 const height = 600
 const border = 60
 
-const gameWorld = new GameWorld(width,height,border)
-gameWorld.draw()
+class Game {
+    constructor(){
+        this.gameWorld = new GameWorld(width,height,border)
+    }
+
+    mainLoop(){
+        this.gameWorld.clear();
+        this.gameWorld.update();
+        this.gameWorld.draw();
+        //mouse.reset();
+        requestAnimationFrame(() => { this.mainLoop() }) // pour le self
+    }
+ 
+    start(){
+        this.mainLoop();
+    }
+
+}
+
+const game = new Game();
+game.start()
