@@ -1,12 +1,12 @@
-class Canvas2D {
+export class Canvas2D {
     constructor(){
         this._canvas = document.getElementById('screen');
         this._context = this._canvas.getContext('2d');
     }
 
-    initializeCanvas(width,height){
-        this._canvas.width = width;
-        this._canvas.height = height;
+    initializeCanvas(width,height,border){
+        this._canvas.width = width+2*border;
+        this._canvas.height = height+2*border;
         this.clear();
     }
 

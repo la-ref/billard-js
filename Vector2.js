@@ -1,6 +1,6 @@
-class Vector2 {
+export class Vector2 {
     constructor(x,y){
-        this.x = typeof x !== 'undefined' ? x : 0;
-        this.y = typeof y !== 'undefined' ? y : 0;
+        this.x = x ?? 0;
+        this.y = x ?? 0;
     }
 }
