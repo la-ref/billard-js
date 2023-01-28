@@ -9,8 +9,10 @@ export class Table {
     constructor(canvas,border){
         this.canvas = canvas
         this.border = border
+    }
+
+    draw(){
         this.canvas.fillRect("rgb(26,130,30)")
-        
         this.canvas.fillRect("brown",0,0,this.canvas.getWidth(),this.border)
         this.canvas.fillRect("brown",0,this.canvas.getHeight()-this.border,this.canvas.getWidth(),this.border)
         this.canvas.fillRect("brown",0,this.border,this.border,this.canvas.getHeight()-this.border)

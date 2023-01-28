@@ -16,7 +16,6 @@ export class Ball {
         this.size = size ?? 18
         this.color = color ?? "yellow"
         this.canvas = canvas
-        this.draw()
     }
 
     draw(){

@@ -25,18 +25,6 @@ export class Canvas2D {
         this._context.restore();
     }
 
-    getWidth(){
-        return this._canvas.width;
-    }
-
-    getHeight(){
-        return this._canvas.height;
-    }
-
-    clear(){
-        this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
-    }
-
     fillRect(color,posX,posY,width,height){
         this._context.fillStyle = color
         if (width != undefined && height != undefined && posX != undefined && posY != undefined) {
@@ -55,6 +43,18 @@ export class Canvas2D {
             this._context.fill();
             this._context.closePath();
         }
+    }
+
+    getWidth(){
+        return this._canvas.width;
+    }
+
+    getHeight(){
+        return this._canvas.height;
+    }
+
+    clear(){
+        this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
     }
 
     getContext(){
