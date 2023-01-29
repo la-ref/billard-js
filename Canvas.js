@@ -48,6 +48,21 @@ export class Canvas2D {
         }
     }
 
+    drawPath(color,posX,posY,toX,toY,width,cap){
+        this._context.save();
+        this._context.lineWidth = width;
+        this._context.strokeStyle = color;
+        this._context.lineCap = cap;
+        this._context.beginPath();
+        this._context.moveTo(posX,posY);
+        this._context.lineTo(toX,toY);
+        this._context.stroke();
+        this._context.closePath();
+        this._context.restore();
+
+
+    }
+
     getWidth(){
         return this._canvas.width;
     }

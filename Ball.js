@@ -17,6 +17,7 @@ export class Ball {
         this.color = color ?? "yellow";
         this.canvas = canvas;
         this.friction = 0.99;
+        this.stopped = true;
     }
 
     colissionCheck(){
@@ -60,6 +61,11 @@ export class Ball {
         if (Math.abs(this.velocity.y) <= 0.05){
             this.velocity.y = 0
         }
+
+    }
+
+    isStopped(){
+        return this.velocity.x == 0 && this.velocity.y == 0
     }
 
     update(){

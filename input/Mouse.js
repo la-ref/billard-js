@@ -1,4 +1,6 @@
-class MouseHandler{
+import { ButtonState } from "./ButtonState.js";
+import { Vector2 } from "../Vector2.js";
+export class MouseHandler{
     constructor(){
         this.left = new ButtonState();
         this.middle = new ButtonState();
@@ -13,8 +15,8 @@ class MouseHandler{
     handleMouseMouve(event){
         let x = event.pageX;
         let y = event.pageY;
-
-        this.position = new Vector2(x,y);
+        let rect = document.getElementById('main-canvas').getBoundingClientRect();
+        this.position = new Vector2((x-rect.x),(y-rect.y));
     }
 
     handleMouseDown(event){
@@ -60,5 +62,3 @@ class MouseHandler{
         this.right.pressed = false;
     }
 }
-
-let mouse = new MouseHandler();
