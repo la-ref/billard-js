@@ -45,9 +45,30 @@ export class Ball {
     colissionBall(balls){
         balls.forEach(ball => {
             if (this != ball) {
-                let distance = (new Vector2()).copy(this.position);
-                console.log(distance)
-                if (distance > this.size + ball.size) return;
+
+                let distance = this.position.copy(); 
+                distance = distance.distance(ball.position)
+                const r = (ball.size + this.size)
+                if (distance <= r){
+                    const norme = ball.position.copy();
+                    norme.substract(this.position)
+
+                    const profondeur = r - distance
+
+                    const normale = norme.copy();
+                    normale.scale(1/distance)
+                    const normale2 = normale.copy()
+                    normale.scale(-1);normale.scale((profondeur/2))
+                    normale2.scale((profondeur/2))
+
+                    this.position.addition(normale)
+                    ball.position.addition(normale2)
+                }
+
+
+                // const distance = (new Vector2()).copy(this.position);
+                // console.log(distance)
+                // if (distance > this.size + ball.size) return;
                 // const L = this.size + ball.size - distance
                 // const xd = new Vector2(ball.position); xd.substract(this.position);
                 // const vd = new Vector2(this.vel); vd.substract(ball.velocity);

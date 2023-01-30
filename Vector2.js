@@ -4,10 +4,8 @@ export class Vector2 {
         this.y = y ?? 0;
     }
 
-    copy(vector){
-        console.log(vector.x)
-        this.x = vector.x
-        this.y = vector.y
+    copy(){
+        return new Vector2(this.x,this.y)
     }
 
     addition(vector){
