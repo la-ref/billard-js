@@ -42,6 +42,27 @@ export class Ball {
 
     }
 
+    colissionBall(balls){
+        balls.forEach(ball => {
+            if (this != ball) {
+                let distance = (new Vector2()).copy(this.position);
+                console.log(distance)
+                if (distance > this.size + ball.size) return;
+                // const L = this.size + ball.size - distance
+                // const xd = new Vector2(ball.position); xd.substract(this.position);
+                // const vd = new Vector2(this.vel); vd.substract(ball.velocity);
+                // const c = new Vector2(xd);c.scale(L/(2*distance))
+                // this.position.substract(c)
+                // ball.velocity.addition(c)
+                // const w = new Vector2(xd); 
+                // const scalaire = w.dotproduct(xd,vd)*1/Math.pow(distance,2);
+                // w.scale(scalaire);
+                // this.velocity.substract(w);
+                // ball.velocity.addition(w);
+            }
+        })
+    }
+
     draw(){
         this.canvas.drawCircle(this.color,this.position.x,this.position.y,this.size);
     }
@@ -68,10 +89,11 @@ export class Ball {
         return this.velocity.x == 0 && this.velocity.y == 0
     }
 
-    update(){
+    update(balls){
         this.updatePostion();
         this.updateVelocity();
         this.colissionCheck();
+        this.colissionBall(balls);
     }
 
 

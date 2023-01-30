@@ -41,7 +41,7 @@ export class GameWorld {
 
     update(){
         for(const ball of this.balls){
-            ball.update()
+            ball.update(this.balls)
         }
         this.cont.setActive(this.balls.every(b => b.isStopped()))
         this.cont.update()

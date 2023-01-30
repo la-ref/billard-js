@@ -12,23 +12,22 @@ export class Control {
         this._canvas = canvas
         this._vector = new Vector2()
         this._active = true
+        this._length = 300
         this.control()
     }
 
     control(){
         document.addEventListener("click", (e) => {
-            console.log(this._vector.x)
             if (!this._active) return;
             this._active = false;
-            const factor = 0.08;
-            this._ball.velocity.x = factor * this._vector.x
-            this._ball.velocity.y = factor * this._vector.y
+            const factor = 0.1;
+            this._ball.velocity.scale2(factor,this._vector)
         })
     }
 
     update(){
-        this._vector.x = this._mouse.position.x - this._ball.position.x
-        this._vector.y = this._mouse.position.y - this._ball.position.y
+        this._vector.substract2(this._mouse.position,this._ball.position)
+        this._vector.limit(this._length)
     }
     
     setActive(stopped){
@@ -37,6 +36,6 @@ export class Control {
 
     draw(){
         if (!this._active) return;
-        this._canvas.drawPath("white",this._ball.position.x,this._ball.position.y,this._mouse.position.x,this._mouse.position.y,10,"round");
+        this._canvas.drawPath("white",this._ball.position.x,this._ball.position.y,this._vector.x,this._vector.y,10,"round");
     }
 }

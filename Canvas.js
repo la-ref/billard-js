@@ -54,7 +54,8 @@ export class Canvas2D {
         this._context.strokeStyle = color;
         this._context.lineCap = cap;
         this._context.beginPath();
-        this._context.moveTo(posX,posY);
+        this._context.translate(posX,posY);
+        this._context.moveTo(0,0);
         this._context.lineTo(toX,toY);
         this._context.stroke();
         this._context.closePath();
