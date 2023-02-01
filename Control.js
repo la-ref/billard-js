@@ -13,7 +13,7 @@ export class Control {
         this._vector = new Vector2()
         this._active = true
         this._length = 300
-        this._factor = 0.15
+        this._factor = 0.1
         this.control()
     }
 

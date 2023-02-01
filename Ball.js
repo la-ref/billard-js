@@ -16,8 +16,9 @@ export class Ball {
         this.size = size ?? 18;
         this.color = color ?? "yellow";
         this.canvas = canvas;
-        this.friction = 0.989;
+        this.friction = 0.99;
         this.stopped = true;
+        this.inHole = false;
     }
 
     colissionCheck(){
@@ -51,38 +52,6 @@ export class Ball {
                 const r = (ball.size + this.size)
                 if (distance <= r){
                     this.bounce(this,ball,distance,r)
-                    // const norme = ball.position.copy();
-                    // norme.substract(this.position)
-
-                    // const profondeur = r - distance
-
-                    // const normale = norme.copy();
-                    // normale.scale(1/distance)
-
-                    // const tx = -normale.y
-                    // const ty = normale.x
-
-                    // const dpt1 = this.velocity.x * tx + this.velocity.y * ty
-                    // const dpt2 = ball.velocity.x * tx + ball.velocity.y * ty
-
-                    // const dpn1 = this.velocity.x * normale.x + this.velocity.y * normale.y
-                    // const dpn2 = ball.velocity.x * normale.x + ball.velocity.y * normale.y
-
-                    // const v1 = (dpn1 * (this.mass - ball.mass) + 2.0 * ball.mass * dpn2) / (this.mass + ball.mass)
-                    // const v2 = (dpn2 * (ball.mass - this.mass) + 2.0 * this.mass * dpn1) / (this.mass + ball.mass)
-
-                    // const normale2 = normale.copy()
-                    // const normale3 = normale.copy()
-                    // normale.scale(-1);normale.scale((profondeur/2))
-                    // normale2.scale((profondeur/2))
-
-                    // this.position.addition(normale)
-                    // ball.position.addition(normale2)
-
-                    // this.velocity.x = tx * dpt1 + normale3.x * -Math.abs(v1)
-                    // this.velocity.y = ty * dpt1 + normale3.y * -Math.abs(v1)
-                    // ball.velocity.x = tx * dpt2 + normale3.x * Math.abs(v2)
-                    // ball.velocity.y = ty * dpt2 + normale3.y * Math.abs(v2)
                 }
             }
         })
@@ -141,6 +110,17 @@ export class Ball {
         ball1.velocity.addition(velocity1);
     }
 
+    colissionHole(holes){
+        holes.forEach(hole => {
+            let distance = this.position.copy(); 
+            distance = distance.distance(hole.position)
+            if (distance <= hole.size-5){
+                this.inHole = true
+                return;
+            }
+        })
+    }
+
     draw(){
         this.canvas.drawCircle(this.color,this.position.x,this.position.y,this.size);
     }
@@ -167,11 +147,16 @@ export class Ball {
         return this.velocity.x == 0 && this.velocity.y == 0
     }
 
-    update(balls){
+    isInHole(){
+        return this.inHole
+    }
+
+    update(balls,holes){
         this.updatePostion();
         this.updateVelocity();
         this.colissionCheck();
         this.colissionBall(balls);
+        this.colissionHole(holes)
     }
 
 

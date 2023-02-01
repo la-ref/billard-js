@@ -8,11 +8,12 @@ import { MouseHandler } from "./input/Mouse.js"
 import { Control } from "./Control.js"
 
 export class GameWorld {
-    constructor(width,height,border){
+    constructor(width,height,border,cornerOffset){
         this.canvas = new Canvas2D();
         this.canvas.initializeCanvas(width,height,border);
 
         this.table = new Table(this.canvas,border)
+        this.control = true
 
         this.pos = {
             x:this.canvas.getWidth() - border - 1/4 *(this.canvas.getWidth() - 2*border),
@@ -37,22 +38,34 @@ export class GameWorld {
             new Ball(new Vector2(this.pos.x+33*4,this.pos.y-19*2),new Vector2(),18,COLORS.RED,this.canvas),
         ]
         this.holes = [
-            new Hole(new Vector2(border,border),this.canvas),
+            new Hole(new Vector2(border+cornerOffset,border+cornerOffset),this.canvas),
             new Hole(new Vector2(this.canvas.getWidth()/2-15,border),this.canvas),
-            new Hole(new Vector2(this.canvas.getWidth()-border,border),this.canvas),
-            new Hole(new Vector2(this.canvas.getWidth()-border,this.canvas.getHeight()-border),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()-border-cornerOffset,border+cornerOffset),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()-border-cornerOffset,this.canvas.getHeight()-border-cornerOffset),this.canvas),
             new Hole(new Vector2(this.canvas.getWidth()/2-15,this.canvas.getHeight()-border),this.canvas),
-            new Hole(new Vector2(border,this.canvas.getHeight()-border),this.canvas)
+            new Hole(new Vector2(border+cornerOffset,this.canvas.getHeight()-border-cornerOffset),this.canvas)
         ]
         this.mouseHand = new MouseHandler();
         this.cont = new Control(this.balls[0],this.mouseHand,this.canvas);
     }
 
     update(){
-        for(const ball of this.balls){
-            ball.update(this.balls)
+
+        this.balls.forEach((ball,i) => {
+            ball.update(this.balls,this.holes)
+            if (ball.isInHole())
+            {
+                if (ball.color == COLORS.WHITE){
+                    this.control = false
+                    this.cont.setActive(false)
+                    console.log("PROUT")
+                }
+                this.balls.splice(i, 1);
+            }
+        })
+        if (this.control){
+            this.cont.setActive(this.balls.every(b => b.isStopped()))
         }
-        this.cont.setActive(this.balls.every(b => b.isStopped()))
         this.cont.update()
     }
 
@@ -64,7 +77,9 @@ export class GameWorld {
         for(const ball of this.balls){
             ball.draw()
         }
-        this.cont.draw()
+        if (this.control){
+            this.cont.draw()
+        }
     }
 
     clear(){
