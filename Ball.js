@@ -16,7 +16,7 @@ export class Ball {
         this.size = size ?? 18;
         this.color = color ?? "yellow";
         this.canvas = canvas;
-        this.friction = 0.99;
+        this.friction = 0.989;
         this.stopped = true;
     }
 
@@ -50,38 +50,81 @@ export class Ball {
                 distance = distance.distance(ball.position)
                 const r = (ball.size + this.size)
                 if (distance <= r){
-                    const norme = ball.position.copy();
-                    norme.substract(this.position)
+                    this.bounce(this,ball,distance,r)
+                    // const norme = ball.position.copy();
+                    // norme.substract(this.position)
 
-                    const profondeur = r - distance
+                    // const profondeur = r - distance
 
-                    const normale = norme.copy();
-                    normale.scale(1/distance)
-                    const normale2 = normale.copy()
-                    normale.scale(-1);normale.scale((profondeur/2))
-                    normale2.scale((profondeur/2))
+                    // const normale = norme.copy();
+                    // normale.scale(1/distance)
 
-                    this.position.addition(normale)
-                    ball.position.addition(normale2)
+                    // const tx = -normale.y
+                    // const ty = normale.x
+
+                    // const dpt1 = this.velocity.x * tx + this.velocity.y * ty
+                    // const dpt2 = ball.velocity.x * tx + ball.velocity.y * ty
+
+                    // const dpn1 = this.velocity.x * normale.x + this.velocity.y * normale.y
+                    // const dpn2 = ball.velocity.x * normale.x + ball.velocity.y * normale.y
+
+                    // const v1 = (dpn1 * (this.mass - ball.mass) + 2.0 * ball.mass * dpn2) / (this.mass + ball.mass)
+                    // const v2 = (dpn2 * (ball.mass - this.mass) + 2.0 * this.mass * dpn1) / (this.mass + ball.mass)
+
+                    // const normale2 = normale.copy()
+                    // const normale3 = normale.copy()
+                    // normale.scale(-1);normale.scale((profondeur/2))
+                    // normale2.scale((profondeur/2))
+
+                    // this.position.addition(normale)
+                    // ball.position.addition(normale2)
+
+                    // this.velocity.x = tx * dpt1 + normale3.x * -Math.abs(v1)
+                    // this.velocity.y = ty * dpt1 + normale3.y * -Math.abs(v1)
+                    // ball.velocity.x = tx * dpt2 + normale3.x * Math.abs(v2)
+                    // ball.velocity.y = ty * dpt2 + normale3.y * Math.abs(v2)
                 }
-
-
-                // const distance = (new Vector2()).copy(this.position);
-                // console.log(distance)
-                // if (distance > this.size + ball.size) return;
-                // const L = this.size + ball.size - distance
-                // const xd = new Vector2(ball.position); xd.substract(this.position);
-                // const vd = new Vector2(this.vel); vd.substract(ball.velocity);
-                // const c = new Vector2(xd);c.scale(L/(2*distance))
-                // this.position.substract(c)
-                // ball.velocity.addition(c)
-                // const w = new Vector2(xd); 
-                // const scalaire = w.dotproduct(xd,vd)*1/Math.pow(distance,2);
-                // w.scale(scalaire);
-                // this.velocity.substract(w);
-                // ball.velocity.addition(w);
             }
         })
+    }
+
+    bounce(b1,b2,distance,r){
+        const dx = b2.position.x-b1.position.x
+        const dy = b2.position.y-b1.position.y
+
+        const unitContactX = dx / distance
+        const unitContactY = dy / distance
+
+        const u1 = b1.velocity.x * unitContactX + b1.velocity.y * unitContactY
+        const u2 = b2.velocity.x * unitContactX + b2.velocity.y * unitContactY
+
+        const u1PerpX = b1.velocity.x - u1 * unitContactX
+        const u1PerpY = b1.velocity.y - u1 * unitContactY
+        const u2PerpX = b2.velocity.x - u2 * unitContactX
+        const u2PerpY = b2.velocity.y - u2 * unitContactY
+
+        b1.velocity.x = u2 * unitContactX + u1PerpX
+        b1.velocity.y = u2 * unitContactY + u1PerpY
+        b2.velocity.x = u1 * unitContactX + u2PerpX
+        b2.velocity.y = u1 * unitContactY + u2PerpY
+
+        const profondeur = r - distance
+
+        const norme = b2.position.copy();
+        norme.substract(b1.position)
+
+        const normale = norme.copy();
+        normale.scale(1/distance)
+
+        const normale2 = normale.copy()
+        normale.scale(-1);normale.scale((profondeur/2))
+        normale2.scale((profondeur/2))
+
+        b1.position.addition(normale)
+        b2.position.addition(normale2)
+
+
+
     }
 
     draw(){

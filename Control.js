@@ -13,6 +13,7 @@ export class Control {
         this._vector = new Vector2()
         this._active = true
         this._length = 300
+        this._factor = 0.15
         this.control()
     }
 
@@ -20,8 +21,7 @@ export class Control {
         document.addEventListener("click", (e) => {
             if (!this._active) return;
             this._active = false;
-            const factor = 0.1;
-            this._ball.velocity.scale2(factor,this._vector)
+            this._ball.velocity.scale2(this._factor,this._vector)
         })
     }
 
