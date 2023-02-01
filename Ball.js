@@ -123,8 +123,22 @@ export class Ball {
         b1.position.addition(normale)
         b2.position.addition(normale2)
 
+    }
 
+    bouncev2(ball1,ball2){
 
+        let power = (Math.abs(ball1.velocity.x) + Math.abs(ball1.velocity.y)) + 
+                    (Math.abs(ball2.velocity.x) + Math.abs(ball2.velocity.y));
+        power = power * 0.003;
+
+        const opposite = ball1.position.y - ball2.position.y;
+        const adjacent = ball1.position.x - ball2.position.x;
+        const rotation = Math.atan2(opposite, adjacent);
+
+        const velocity2 = new Vector2(90*Math.cos(rotation + Math.PI)*power,90*Math.sin(rotation + Math.PI)*power);
+        ball2.velocity.addition(velocity2);
+        const velocity1 = new Vector2(90*Math.cos(rotation)*power,90*Math.sin(rotation)*power);
+        ball1.velocity.addition(velocity1);
     }
 
     draw(){

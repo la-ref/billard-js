@@ -2,6 +2,7 @@ import { Canvas2D } from "./Canvas.js";
 import { Table } from "./Table.js";
 import { Vector2 } from "./Vector2.js";
 import { Ball } from "./Ball.js";
+import { Hole } from "./Hole.js";
 import { COLORS } from "./Color.js";
 import { MouseHandler } from "./input/Mouse.js"
 import { Control } from "./Control.js"
@@ -35,6 +36,14 @@ export class GameWorld {
             new Ball(new Vector2(this.pos.x+33*4,this.pos.y+19*2),new Vector2(),18,COLORS.YELLOW,this.canvas),
             new Ball(new Vector2(this.pos.x+33*4,this.pos.y-19*2),new Vector2(),18,COLORS.RED,this.canvas),
         ]
+        this.holes = [
+            new Hole(new Vector2(border,border),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()/2-15,border),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()-border,border),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()-border,this.canvas.getHeight()-border),this.canvas),
+            new Hole(new Vector2(this.canvas.getWidth()/2-15,this.canvas.getHeight()-border),this.canvas),
+            new Hole(new Vector2(border,this.canvas.getHeight()-border),this.canvas)
+        ]
         this.mouseHand = new MouseHandler();
         this.cont = new Control(this.balls[0],this.mouseHand,this.canvas);
     }
@@ -49,6 +58,9 @@ export class GameWorld {
 
     draw(){
         this.table.draw()
+        for(const hole of this.holes){
+            hole.draw()
+        }
         for(const ball of this.balls){
             ball.draw()
         }
