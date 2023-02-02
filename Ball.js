@@ -10,7 +10,7 @@ export class Ball {
      * @param {string} color 
      * @param {Canvas2D} canvas 
      */
-    constructor(position,velocity,size,color,canvas){
+    constructor(position,velocity,size,color,canvas,main){
         this.position = position ?? new Vector2();
         this.velocity = velocity ?? new Vector2();
         this.size = size ?? 18;
@@ -19,6 +19,7 @@ export class Ball {
         this.friction = 0.99;
         this.stopped = true;
         this.inHole = false;
+        this.mainBall = main ?? false
     }
 
     colissionCheck(){
@@ -45,7 +46,7 @@ export class Ball {
 
     colissionBall(balls){
         balls.forEach(ball => {
-            if (this != ball) {
+            if (this != ball || this.inHole) {
 
                 let distance = this.position.copy(); 
                 distance = distance.distance(ball.position)
@@ -122,7 +123,9 @@ export class Ball {
     }
 
     draw(){
-        this.canvas.drawCircle(this.color,this.position.x,this.position.y,this.size);
+        if (!this.inHole){
+            this.canvas.drawCircle(this.color,this.position.x,this.position.y,this.size);
+        }
     }
 
     updatePostion(){
@@ -133,11 +136,11 @@ export class Ball {
     updateVelocity()
     {
         this.velocity.x *= this.friction;
-        if (Math.abs(this.velocity.x) <= 0.05){
+        if (Math.abs(this.velocity.x) <= 0.05 || this.inHole){
             this.velocity.x = 0
         }
         this.velocity.y *= this.friction;
-        if (Math.abs(this.velocity.y) <= 0.05){
+        if (Math.abs(this.velocity.y) <= 0.05 || this.inHole){
             this.velocity.y = 0
         }
 
@@ -151,12 +154,26 @@ export class Ball {
         return this.inHole
     }
 
+    checkBallReplace(x,y){
+        if (x >= this.canvas.getBorder() &&
+            (x <= (this.canvas.getBorder()+1/4 *(this.canvas.getWidth() - 2*this.canvas.getBorder())) &&
+            (y >= this.canvas.getBorder()) && 
+            (y <= this.canvas.getHeight()-this.canvas.getBorder()))) {
+
+            this.inHole = false
+            this.position.x = x
+            this.position.y = y
+            return true
+        }
+        return false
+    }
+
     update(balls,holes){
         this.updatePostion();
         this.updateVelocity();
         this.colissionCheck();
         this.colissionBall(balls);
-        this.colissionHole(holes)
+        this.colissionHole(holes);
     }
 
 
